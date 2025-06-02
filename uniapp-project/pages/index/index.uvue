@@ -1,38 +1,18 @@
 <template>
 	<view>
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
+        <up-datetime-picker
+            hasInput
+            :show="show"
+            v-model="value1"
+            mode="datetime"
+        ></up-datetime-picker>
+		<up-button @click="show = true">打开1</up-button>
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
+<script setup>
+import { ref } from 'vue';
 
-		},
-		methods: {
-
-		}
-	}
+const show = ref(false);
+const value1 = ref(Date.now());
 </script>
-
-<style>
-	.logo {
-		height: 100px;
-		width: 100px;
-		margin: 100px auto 25px auto;
-	}
-
-	.title {
-		font-size: 18px;
-		color: #8f8f94;
-    text-align: center;
-	}
-</style>

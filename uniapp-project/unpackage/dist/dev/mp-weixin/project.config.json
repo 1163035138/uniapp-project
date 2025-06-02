@@ -7,14 +7,13 @@
     "urlCheck": false,
     "es6": true,
     "postcss": false,
-    "minified": false,
+    "minified": true,
     "newFeature": true,
-    "bigPackageSizeSupport": true,
-    "minifyWXML": true
+    "bigPackageSizeSupport": true
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "touristappid",
+  "appid": "wx72415bc05791d15c",
   "projectname": "uniapp-project",
   "condition": {
     "search": {
