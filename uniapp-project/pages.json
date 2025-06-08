@@ -12,7 +12,19 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app x"
+				"navigationBarTitleText": "萌盒"
+			}
+		},
+		{
+			"path": "pages/buy/index",
+			"style": {
+				"navigationBarTitleText": "购买"
+			}
+		},
+		{
+			"path": "pages/explore/index",
+			"style": {
+				"navigationBarTitleText": "探索"
 			}
 		}
 	],
@@ -22,5 +34,22 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	"tabBar": {
+        "color": "#999",
+        "selectedColor": "#0aa671",
+        "borderStyle": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index"
+            },
+            {
+                "pagePath": "pages/buy/index"
+            },
+            {
+                "pagePath": "pages/explore/index"
+            }
+        ]
+  	}
+
 }

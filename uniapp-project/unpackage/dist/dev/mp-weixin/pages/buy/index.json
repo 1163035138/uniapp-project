@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购买",
+  "usingComponents": {
+    "tabbar": "../../components/tabbar/index",
+    "buy": "./components/buy"
+  }
+}

@@ -1,0 +1,6 @@
+// 实例化为state
+export const state = reactive({ activeTab: 0 });
+// 定义修改属性值的方法
+export const setActiveTab = (num) => {
+  state.activeTab = num;
+};

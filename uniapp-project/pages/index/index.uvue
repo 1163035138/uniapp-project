@@ -1,18 +1,11 @@
 <template>
 	<view>
-        <up-datetime-picker
-            hasInput
-            :show="show"
-            v-model="value1"
-            mode="datetime"
-        ></up-datetime-picker>
-		<up-button @click="show = true">打开1</up-button>
+		<Home />
+		<Tabbar />
 	</view>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
-const show = ref(false);
-const value1 = ref(Date.now());
+	import Tabbar from '@/components/tabbar/index.uvue'
+	import Home from '@/pages/index/components/home.uvue'
 </script>

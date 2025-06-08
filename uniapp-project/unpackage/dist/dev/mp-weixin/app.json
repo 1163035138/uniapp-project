@@ -1,12 +1,30 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/buy/index",
+    "pages/explore/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app x",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#0aa671",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/buy/index"
+      },
+      {
+        "pagePath": "pages/explore/index"
+      }
+    ]
   },
   "usingComponents": {}
 }

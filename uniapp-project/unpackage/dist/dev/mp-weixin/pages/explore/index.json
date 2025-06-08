@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "探索",
+  "usingComponents": {
+    "tabbar": "../../components/tabbar/index",
+    "explore": "./components/explore"
+  }
+}

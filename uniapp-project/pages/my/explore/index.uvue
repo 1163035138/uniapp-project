@@ -1,0 +1,11 @@
+<template>
+	<view>
+		<Explore />
+		<Tabbar />
+	</view>
+</template>
+
+<script setup>
+	import Tabbar from '@/components/tabbar/index.uvue'
+	import Explore from '@/pages/explore/components/index.uvue'
+</script>

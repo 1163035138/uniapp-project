@@ -1,0 +1,14 @@
+<template>
+    <div>
+        3
+    </div>
+</template>
+
+<script setup>
+    defineOptions({
+    name: 'MyComponent'
+});
+</script>
+
+<style scoped>
+</style>

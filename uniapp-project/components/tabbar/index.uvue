@@ -1,0 +1,71 @@
+<template>
+	<view>
+		<up-tabbar :value="state.activeTab" @change="setActiveTab" :fixed="true" :placeholder="true"
+			:safeAreaInsetBottom="true" inactiveColor="#1A1A1A" activeColor="#1A1A1A">
+			<up-tabbar-item text="萌盒" @click="clickTab('index')">
+				<template #active-icon>
+					<up-icon name="gift-fill" size="20"></up-icon>
+				</template>
+				<template #inactive-icon>
+					<up-icon name="gift" size="20"></up-icon>
+				</template>
+			</up-tabbar-item>
+			<up-tabbar-item text="购买" @click="clickTab('buy')">
+				<template #active-icon>
+					<up-icon name="bag-fill" size="20"></up-icon>
+				</template>
+				<template #inactive-icon>
+					<up-icon name="bag" size="20"></up-icon>
+				</template>
+			</up-tabbar-item>
+			<up-tabbar-item text="探索" @click="clickTab('explore')">
+				<template #active-icon>
+					<up-icon name="camera-fill" size="20"></up-icon>
+				</template>
+				<template #inactive-icon>
+					<up-icon name="camera" size="20"></up-icon>
+				</template>
+			</up-tabbar-item>
+			<up-tabbar-item text="我">
+				<template #active-icon>
+					<up-icon name="account-fill" size="20"></up-icon>
+				</template>
+				<template #inactive-icon>
+					<up-icon name="account" size="20"></up-icon>
+				</template>
+			</up-tabbar-item>
+		</up-tabbar>
+	</view>
+</template>
+
+<script setup>
+	import { state, setActiveTab } from '@/store/home/index.uts'
+	const clickTab = (tab) => {
+		switch (tab) {
+			case 'index':
+				uni.switchTab({
+					url: '/pages/index/index'
+				})
+				break;
+			case 'buy':
+				uni.switchTab({
+					url: '/pages/buy/index'
+				})
+				break;
+			case 'explore':
+				uni.switchTab({
+					url: '/pages/explore/index'
+				})
+				break;
+			default:
+				break;
+		}
+	};
+	onShow(() => {
+		console.log('App Show111')
+		//⭐隐藏pages.json里配置的导航栏，使用封装的tabbar组件
+		uni.hideTabBar({
+			animation: false
+		})
+	});
+</script>
