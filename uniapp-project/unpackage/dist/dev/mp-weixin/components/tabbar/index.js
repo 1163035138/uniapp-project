@@ -33,10 +33,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent(new UTSJSONObjec
             url: "/pages/explore/index"
           });
           break;
+        case "my":
+          common_vendor.index.switchTab({
+            url: "/pages/my/index"
+          });
+          break;
       }
     };
     common_vendor.onShow(() => {
-      common_vendor.index.__f__("log", "at components/tabbar/index.uvue:65", "App Show111");
+      common_vendor.index.__f__("log", "at components/tabbar/index.uvue:70", "App Show111");
       common_vendor.index.hideTabBar(new UTSJSONObject({
         animation: false
       }));
@@ -93,11 +98,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent(new UTSJSONObjec
           name: "account",
           size: "20"
         }),
-        o: common_vendor.p({
+        o: common_vendor.o(($event = null) => {
+          return clickTab("my");
+        }),
+        p: common_vendor.p({
           text: "我"
         }),
-        p: common_vendor.o(common_vendor.unref(store_home_index.setActiveTab)),
-        q: common_vendor.p({
+        q: common_vendor.o(common_vendor.unref(store_home_index.setActiveTab)),
+        r: common_vendor.p({
           value: common_vendor.unref(store_home_index.state).activeTab,
           fixed: true,
           placeholder: true,
@@ -105,7 +113,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent(new UTSJSONObjec
           inactiveColor: "#1A1A1A",
           activeColor: "#1A1A1A"
         }),
-        r: common_vendor.sei(common_vendor.gei(_ctx, ""), "view")
+        s: common_vendor.sei(common_vendor.gei(_ctx, ""), "view")
       };
       return __returned__;
     };

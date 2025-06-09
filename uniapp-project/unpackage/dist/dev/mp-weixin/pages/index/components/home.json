@@ -1,4 +1,8 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "up-search": "../../../uni_modules/uview-plus/components/u-search/u-search",
+    "up-tabs": "../../../uni_modules/uview-plus/components/u-tabs/u-tabs",
+    "up-sticky": "../../../uni_modules/uview-plus/components/u-sticky/u-sticky"
+  }
 }

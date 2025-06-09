@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["store/globalVariable/index.uts"],"sourcesContent":["// 全局变量\r\nconst locolhost = \"http://localhost:3000\";\r\nexport const api = ref(locolhost);\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"],"names":["ref"],"mappings":";;AACA,MAAM,YAAY;MACL,MAAMA,cAAG,IAAC,SAAS;;"}

@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/buy/index",
-    "pages/explore/index"
+    "pages/explore/index",
+    "pages/my/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -23,6 +24,9 @@
       },
       {
         "pagePath": "pages/explore/index"
+      },
+      {
+        "pagePath": "pages/my/index"
       }
     ]
   },

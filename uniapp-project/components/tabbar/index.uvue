@@ -26,7 +26,7 @@
 					<up-icon name="camera" size="20"></up-icon>
 				</template>
 			</up-tabbar-item>
-			<up-tabbar-item text="我">
+			<up-tabbar-item text="我" @click="clickTab('my')">
 				<template #active-icon>
 					<up-icon name="account-fill" size="20"></up-icon>
 				</template>
@@ -55,6 +55,11 @@
 			case 'explore':
 				uni.switchTab({
 					url: '/pages/explore/index'
+				})	
+				break;
+			case 'my':
+				uni.switchTab({
+					url: '/pages/my/index'
 				})
 				break;
 			default:

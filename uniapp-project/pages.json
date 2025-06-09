@@ -26,6 +26,12 @@
 			"style": {
 				"navigationBarTitleText": "探索"
 			}
+		},
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
 		}
 	],
 	"globalStyle": {
@@ -48,6 +54,9 @@
             },
             {
                 "pagePath": "pages/explore/index"
+            },
+            {
+                "pagePath": "pages/my/index"
             }
         ]
   	}

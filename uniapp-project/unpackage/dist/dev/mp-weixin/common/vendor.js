@@ -5767,6 +5767,66 @@ function patchStopImmediatePropagation(e2, value) {
     return value;
   }
 }
+function vFor(source, renderItem) {
+  let ret;
+  if (isArray(source) || isString(source)) {
+    ret = new Array(source.length);
+    for (let i = 0, l = source.length; i < l; i++) {
+      ret[i] = renderItem(source[i], i, i);
+    }
+  } else if (typeof source === "number") {
+    if (!Number.isInteger(source)) {
+      warn(`The v-for range expect an integer value but got ${source}.`);
+      return [];
+    }
+    ret = new Array(source);
+    for (let i = 0; i < source; i++) {
+      ret[i] = renderItem(i + 1, i, i);
+    }
+  } else if (isObject(source)) {
+    if (source[Symbol.iterator]) {
+      ret = Array.from(source, (item, i) => renderItem(item, i, i));
+    } else {
+      const keys = Object.keys(source);
+      ret = new Array(keys.length);
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        ret[i] = renderItem(source[key], key, i);
+      }
+    }
+  } else {
+    ret = [];
+  }
+  return ret;
+}
+function renderSlot(name, props = {}, key) {
+  const instance = getCurrentInstance();
+  const { parent, isMounted, ctx: { $scope } } = instance;
+  const vueIds = ($scope.properties || $scope.props).uI;
+  if (!vueIds) {
+    return;
+  }
+  if (!parent && !isMounted) {
+    onMounted(() => {
+      renderSlot(name, props, key);
+    }, instance);
+    return;
+  }
+  const invoker = findScopedSlotInvoker(vueIds, instance);
+  if (invoker) {
+    invoker(name, props, key);
+  }
+}
+function findScopedSlotInvoker(vueId, instance) {
+  let parent = instance.parent;
+  while (parent) {
+    const invokers = parent.$ssi;
+    if (invokers && invokers[vueId]) {
+      return invokers[vueId];
+    }
+    parent = parent.parent;
+  }
+}
 function setUniElementId(id, options, ref2, refOpts) {
   const ins = getCurrentInstance();
   if (ins) {
@@ -5861,6 +5921,8 @@ function genUniElementId(_ctx, idBinding, genId) {
   return genIdWithVirtualHost(_ctx, idBinding) || genId || "";
 }
 const o = (value, key) => vOn(value, key);
+const f = (source, renderItem) => vFor(source, renderItem);
+const r = (name, props, key) => renderSlot(name, props, key);
 const s = (value) => stringifyStyle(value);
 const e = (target, ...sources) => extend(target, ...sources);
 const n = (value) => normalizeClass(value);
@@ -7851,9 +7913,9 @@ function isConsoleWritable() {
   return isWritable;
 }
 function initRuntimeSocketService() {
-  const hosts = "172.20.240.1,192.168.1.8,127.0.0.1";
-  const port = "8090";
-  const id = "mp-weixin_azr27M";
+  const hosts = "192.168.1.8,127.0.0.1";
+  const port = "8091";
+  const id = "mp-weixin_Y1x0OQ";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -9495,22 +9557,49 @@ function __awaiter(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 }
+function __read(o2, n2) {
+  var m = typeof Symbol === "function" && o2[Symbol.iterator];
+  if (!m)
+    return o2;
+  var i = m.call(o2), r2, ar = [], e2;
+  try {
+    while ((n2 === void 0 || n2-- > 0) && !(r2 = i.next()).done)
+      ar.push(r2.value);
+  } catch (error) {
+    e2 = { error };
+  } finally {
+    try {
+      if (r2 && !r2.done && (m = i["return"]))
+        m.call(i);
+    } finally {
+      if (e2)
+        throw e2.error;
+    }
+  }
+  return ar;
+}
 typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
   var e2 = new Error(message);
   return e2.name = "SuppressedError", e2.error = error, e2.suppressed = suppressed, e2;
 };
 exports.__awaiter = __awaiter;
+exports.__read = __read;
 exports._export_sfc = _export_sfc;
 exports.createSSRApp = createSSRApp;
 exports.defineComponent = defineComponent;
 exports.e = e;
+exports.f = f;
 exports.gei = gei;
 exports.index = index;
+exports.isRef = isRef;
 exports.n = n;
 exports.o = o;
+exports.onMounted = onMounted;
 exports.onShow = onShow;
 exports.p = p;
+exports.r = r;
 exports.reactive = reactive;
+exports.ref = ref;
 exports.resolveComponent = resolveComponent;
 exports.s = s;
 exports.sei = sei;

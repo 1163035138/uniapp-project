@@ -6,6 +6,7 @@ if (!Math) {
   "./pages/index/index.js";
   "./pages/buy/index.js";
   "./pages/explore/index.js";
+  "./pages/my/index.js";
 }
 const _sfc_main = common_vendor.defineComponent(new UTSJSONObject({
   onLaunch: function() {

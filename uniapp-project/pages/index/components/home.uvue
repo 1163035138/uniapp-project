@@ -1,13 +1,29 @@
 <template>
-    <div>
-        1
-    </div>
+	<div>
+		<up-sticky bgColor="#fff">
+			<up-search v-model="searchValue" :show-action="false" shape="square"></up-search>
+			<up-tabs :list="list1" :active-color="'#0AB7B8'" v-if="list1.length" itemStyle=""></up-tabs>
+		</up-sticky>
+	</div>
 </template>
 
 <script setup>
+	import { getHomeData } from '../api';
 
+	const searchValue = ref('');
+	const list1 : any = reactive([]);
+
+	const fetchData = async () => {
+		const res = await getHomeData();
+		if (res?.errorCode === 200) {
+			const formattedData = res.data.map(item => ({ name: item.title }));
+			list1.push(...formattedData);
+		}
+	};
+
+	onMounted(fetchData);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
