@@ -1,12 +1,239 @@
 <template>
-    <div>
-        2
-    </div>
+	<view class="home">
+		<div class="sticky">
+			<up-search v-model="searchValue" :show-action="false" shape="square" @blur="fetchFlowData"></up-search>
+			<up-tabs :list="list1" :active-color="'#0AB7B8'" v-if="list1.length" itemStyle="" @change="tabsClick"
+				:current="tabCurrent"></up-tabs>
+		</div>
+		<div class="waterfall">
+			<swiper :current="swiperCurrent" class="swiper" @change="changeSwiper" >
+				<swiper-item v-for="(item, index) in list1" :key="index" :item-id="index.toString()"
+					class="swiper-item">
+					<scroll-view scroll-y style="height:100%;width: 100%" @scrolltolower="scrolltolower" :lower-threshold="400">
+						<up-waterfall v-model="flowList">
+							<template v-slot:left="{leftList}">
+								<view v-if="tabCurrent === index">
+									<view v-for="(item1, index1) in leftList" :key="index1">
+										<view class="waterfall-item">
+											<up-lazy-load threshold="0" border-radius="10" :image="item1.photos?.[0]"
+												:index="index1+'left'" height='600rpx'
+												img-mode="aspectFill"></up-lazy-load>
+											<view class="content">
+												<view class="title">{{ item1.title }}</view>
+												<view class="content-bottom">
+													<view class="content-bottom-left">
+														<up-image :src="item1.avatar" width='30rpx' height='30rpx'
+															shape="circle"></up-image>
+														<span class="nickname">{{ item1.nickname }}</span>
+													</view>
+													<view class="content-bottom-right">
+														<up-icon name="thumb-up" size="20"></up-icon>
+														<view>{{ item1.likes }}</view>
+													</view>
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+
+							</template>
+							<template v-slot:right="{rightList}">
+								<view v-if="tabCurrent === index">
+									<view v-for="(item2, index2) in rightList" :key="index2">
+										<view class="waterfall-item">
+											<up-lazy-load threshold="0" border-radius="10" :image="item2.photos?.[0]"
+												:index="index2+'right'" height='600rpx'
+												img-mode="aspectFill"></up-lazy-load>
+											<view class="content">
+												<view class="title">{{ item2.title }}</view>
+												<view class="content-bottom">
+													<view class="content-bottom-left">
+														<up-image :src="item2.avatar" width='30rpx' height='30rpx'
+															shape="circle"></up-image>
+														<span class="nickname">{{ item2.nickname }}</span>
+													</view>
+													<view class="content-bottom-right">
+														<up-icon name="thumb-up" size="20"></up-icon>
+														<view>{{ item2.likes }}</view>
+													</view>
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</template>
+						</up-waterfall>
+						<up-loadmore :status="loadStatus" color="black"
+							style="overflow: unset;padding:10px 0 20px 0;margin:0"></up-loadmore>
+					</scroll-view>
+				</swiper-item>
+			</swiper>
+		</div>
+	</view>
 </template>
 
 <script setup>
+	import { getHomeData, getHomeWaterfallData } from '../../index/api';
 
+	const searchValue = ref('');
+	const list1 = reactive([]);
+	const flowList = ref([]);
+	const loadStatus = ref('loadmore');
+	const tabCurrent = ref(0);
+	const swiperCurrent = ref(0);
+	const pagination = reactive({
+		page: 1,
+		pageSize: 10,
+		total: 0
+	})
+
+	//获取标签数据
+	const fetchTabsData = async () => {
+		try {
+			const res = await getHomeData();
+			if (res?.errorCode === 200) {
+				const formattedData = res.data.map(item => ({ name: item.title, company: item.company }));
+				list1.splice(0, list1.length, ...formattedData);
+			}
+		} catch (error) {
+			console.error('获取标签数据失败', error);
+		}
+	};
+	//获取瀑布流数据
+	const fetchFlowData = async () => {
+		try {
+			const params = {
+				page: pagination.page,
+				pageSize: pagination.pageSize,
+				searchValue: searchValue.value,
+				company: list1[tabCurrent.value]?.company || ''
+			}
+			const res = await getHomeWaterfallData(params);
+			if (res?.errorCode === 200) {
+				pagination.page = res.data.pagination.page;
+				pagination.pageSize = res.data.pagination.pageSize;
+				pagination.total = res.data.pagination.total;
+				//判断是否还有数据
+				if (res.data.pagination.page * res.data.pagination.pageSize >= res.data.pagination.total) {
+					flowList.value = [...flowList.value, ...res.data.list];
+					loadStatus.value = 'nomore';
+				} else {
+					flowList.value = [...flowList.value, ...res.data.list];
+					loadStatus.value = 'loadmore';
+				}
+			}
+		} catch (error) {
+			console.error('获取瀑布流数据失败', error);
+			loadStatus.value = 'loadmore';
+		} finally {
+			// 请求完成后重置标志位
+		}
+	};
+	//点击标签
+	const tabsClick = (item, index) => {
+		swiperCurrent.value = index;
+	}
+	const scrolltolower = () => {
+		if (loadStatus.value === 'nomore') {
+			return;
+		}
+		pagination.page++;
+		fetchFlowData();
+	}
+	const changeSwiper = ({ detail: { current } }) => {
+		flowList.value = [];
+		tabCurrent.value = current;
+		swiperCurrent.value = current;
+		pagination.page = 1;
+		fetchFlowData();
+	}
+	onMounted(() => {
+		// 获取标签数据
+		fetchTabsData();
+		// 获取瀑布流数据
+		fetchFlowData();
+	});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+	.home {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.sticky {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 100;
+			background-color: #fff;
+		}
+
+		.waterfall {
+			margin-top: 70px;
+			/* 根据sticky区域的高度调整 */
+			flex: 1;
+
+			.swiper {
+				height: 100%;
+
+				.swiper-item {
+					height: 100%;
+				}
+			}
+
+			.waterfall-item {
+				padding: 6rpx;
+				box-sizing: border-box;
+			}
+		}
+
+		.loadmore-container {
+			width: 100%;
+			padding: 20rpx 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.content {
+			padding: 12rpx;
+
+			.title {
+				font-size: 28rpx;
+				color: #333;
+				font-weight: 550;
+			}
+
+			.content-bottom {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-direction: row;
+				margin-top: 12rpx;
+
+				.content-bottom-left {
+					display: flex;
+					align-items: center;
+					font-size: 22rpx;
+					flex-direction: row;
+					color: #606266;
+
+					.nickname {
+						margin-left: 8rpx;
+						height: 30rpx;
+					}
+				}
+
+				.content-bottom-right {
+					display: flex;
+					align-items: center;
+					font-size: 22rpx;
+					flex-direction: row;
+					color: #606266;
+				}
+			}
+		}
+	}
 </style>

@@ -2,6 +2,43 @@
 const locolhost = "http://localhost:3000";
 export const api = ref(locolhost);
 
+export const isIos = ()=>{
+    let end=''
+    const res = uni.getDeviceInfo();
+    // 获取像素比, 供截图对比使用
+
+    const res_str = JSON.stringify(res);
+    const res_obj = JSON.parseObject(res_str);
+    const res_map = res_obj!.toMap();
+    let keys = [] as string[]
+    res_map.forEach((_, key) => {
+      keys.push(key);
+    });
+    keys.sort().forEach(key => {
+      const value = res[key];
+      if (value != null) {
+        const item = {
+          label: key,
+          value: "" + ((typeof value == "object") ? JSON.stringify(value) : value)
+        } 
+        if(key==='osName'){
+            end=item.value
+        }
+      }
+    });
+    return end
+}
+export const mainHomeHeight=()=>{
+    console.log(isIos(),'isIos()'
+    if(isIos()==='ios'){
+        // return `calc(100vh - 84px) overflow-y: auto;`
+        return `calc(100vh - 84px) `
+    }else{
+        // return `calc(100vh - 50px) overflow-y: auto;`
+        return `calc(100vh - 50px) `
+    }
+}
+
 
 
 

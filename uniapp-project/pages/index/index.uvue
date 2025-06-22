@@ -1,11 +1,16 @@
 <template>
-	<view>
+	<view  :style="{height:mainHomeHeight()}">
 		<Home />
-		<Tabbar />
+		<Tabbar/>
 	</view>
 </template>
 
 <script setup>
 	import Tabbar from '@/components/tabbar/index.uvue'
 	import Home from '@/pages/index/components/home.uvue'
+	import { mainHomeHeight } from '@/store/globalVariable'
 </script>
+
+<style scoped lang="scss">
+
+</style>

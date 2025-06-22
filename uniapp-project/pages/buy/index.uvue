@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view :style="{height:mainHomeHeight()}">
 		<Buy />
 		<Tabbar />
 	</view>
@@ -8,4 +8,5 @@
 <script setup>
 	import Tabbar from '@/components/tabbar/index.uvue'
 	import Buy from '@/pages/buy/components/buy.uvue'
+	import { mainHomeHeight } from '@/store/globalVariable'
 </script>

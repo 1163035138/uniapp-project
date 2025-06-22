@@ -7,10 +7,23 @@ const getHomeData = () => {
       url: `${store_globalVariable_index.api.value}/wechat-mini-program/getHomeTabsData`,
       method: "get"
     });
-    if (res.statusCode === 200) {
+    if (res.data.errorCode === 200) {
+      return res.data;
+    }
+  });
+};
+const getHomeWaterfallData = (data) => {
+  return common_vendor.__awaiter(void 0, void 0, void 0, function* () {
+    const res = yield common_vendor.index.request({
+      url: `${store_globalVariable_index.api.value}/wechat-mini-program/getHomeWaterfallData`,
+      method: "post",
+      data
+    });
+    if (res.data.errorCode === 200) {
       return res.data;
     }
   });
 };
 exports.getHomeData = getHomeData;
+exports.getHomeWaterfallData = getHomeWaterfallData;
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/api.js.map
